@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func Dot(src []byte) (dist []byte, err error) {
+func Dot(src []byte, args ...string) (dist []byte, err error) {
 	var dotPath string
 	var stdin io.WriteCloser
 
@@ -15,7 +15,8 @@ func Dot(src []byte) (dist []byte, err error) {
 		return
 	}
 
-	cmd := exec.Command(dotPath, "-Tsvg")
+	params := append([]string{"-Tsvg"}, args...)
+	cmd := exec.Command(dotPath, params...)
 	stdin, err = cmd.StdinPipe()
 	if err != nil {
 		return
